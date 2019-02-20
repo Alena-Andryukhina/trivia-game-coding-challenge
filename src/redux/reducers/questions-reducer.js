@@ -1,14 +1,16 @@
-import questionsAction from "../actions/questions-action";
+import questionsAction from '../actions/questions-action';
 
 const initState = {
-  list: []
+  questionsList: [],
 };
 
 export default (state = initState, action) => {
   switch (action.type) {
+    case questionsAction.FETCH_QUESTIONS_REQUEST: {
+      return { ...initState };
+    }
     case questionsAction.FETCH_QUESTIONS_SUCCESS:
-      const questions = action.payload;
-      return { ...state, list: questions };
+      return { ...state, questionsList: action.payload };
     default:
       return state;
   }

@@ -1,13 +1,9 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { ConnectedRouter } from 'connected-react-router';
+import React from 'react';
 import { Route, Switch } from 'react-router';
+import styled from 'styled-components';
+import { ConnectedRouter } from 'connected-react-router';
 
 import { history } from './redux';
-import questionsActions from './redux/actions/questions-action';
-import './App.css';
 import HomeScreen from './views/HomeScreen';
 import QuizScreen from './views/QuizScreen';
 import ResultsScreen from './views/ResultsScren';
@@ -17,6 +13,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
+  font-size: 18px;
 `;
 
 const Content = styled.div`
@@ -28,47 +25,18 @@ const Content = styled.div`
   background-color: #d0d0d0;
 `;
 
-class App extends Component {
-  componentDidMount() {
-    const { fetchQuestionsRequest } = this.props;
-    fetchQuestionsRequest();
-  }
+const App = () => (
+  <Container>
+    <Content>
+      <ConnectedRouter history={history}>
+        <Switch>
+          <Route exact path="/" component={HomeScreen} />
+          <Route exact path="/quiz/:id" component={QuizScreen} />
+          <Route exact path="/results" component={ResultsScreen} />
+        </Switch>
+      </ConnectedRouter>
+    </Content>
+  </Container>
+);
 
-  render() {
-    const {
-      questions: { results },
-    } = this.props;
-    console.log(results);
-    return (
-      <Container>
-        <Content>
-          <ConnectedRouter history={history}>
-            <>
-              <Switch>
-                <Route exact path="/" component={HomeScreen} />
-                <Route exact path="/quiz" component={QuizScreen} />
-                <Route exact path="/results" component={ResultsScreen} />
-              </Switch>
-            </>
-          </ConnectedRouter>
-        </Content>
-      </Container>
-    );
-  }
-}
-
-const mapStateToProps = state => ({
-  questions: state.questions.list,
-});
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      fetchQuestionsRequest: questionsActions.fetchQuestionsRequest,
-    },
-    dispatch
-  );
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default App;

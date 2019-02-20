@@ -8,7 +8,7 @@ import questionsActions from '../actions/questions-action';
 const fetchQuestionsEpic = action$ =>
   action$.pipe(
     ofType(questionsActions.FETCH_QUESTIONS_REQUEST),
-    mergeMap(action =>
+    mergeMap(() =>
       from(questionsApi.fetchQuestions()).pipe(
         map(questionsActions.fetchQuestionsSuccess),
         catchError(error => of(questionsActions.fetchQuestionsError(error)))
