@@ -2,7 +2,9 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components';
 import { ConnectedRouter } from 'connected-react-router';
+import { Provider } from 'react-redux';
 
+import store from './redux';
 import { history } from './redux';
 import HomeScreen from './views/HomeScreen';
 import QuizScreen from './views/QuizScreen';
@@ -26,17 +28,19 @@ const Content = styled.div`
 `;
 
 const App = () => (
-  <Container>
-    <Content>
-      <ConnectedRouter history={history}>
-        <Switch>
-          <Route exact path="/" component={HomeScreen} />
-          <Route exact path="/quiz/:id" component={QuizScreen} />
-          <Route exact path="/results" component={ResultsScreen} />
-        </Switch>
-      </ConnectedRouter>
-    </Content>
-  </Container>
+  <Provider store={store}>
+    <Container>
+      <Content>
+        <ConnectedRouter history={history}>
+          <Switch>
+            <Route exact path="/" component={HomeScreen} />
+            <Route exact path="/quiz/:id" component={QuizScreen} />
+            <Route exact path="/results" component={ResultsScreen} />
+          </Switch>
+        </ConnectedRouter>
+      </Content>
+    </Container>
+  </Provider>
 );
 
 export default App;
